@@ -13,6 +13,7 @@
     投稿日: {{ snippet.created_at|date:"DATETIME_FORMAT" }}
     {% if user.is_authenticated and snippet.created_by_id == user.id %}
     <a href="{% url 'snippet_edit' snippet.id %}">編集</a>
+    <a href="{% url 'snippet_delete' snippet.id %}">削除</a>
     {% endif %}
 </div>
 
