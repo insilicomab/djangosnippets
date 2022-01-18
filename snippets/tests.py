@@ -1,9 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase, RequestFactory
+from django.urls import resolve
+
 from snippets.models import Snippet
 from snippets.views import top, snippet_new, snippet_edit, snippet_detail
 
 UserModel = get_user_model()
+
 
 class TopPageTest(TestCase):
     def test_top_page_returns_200_and_expected_title(self):
@@ -13,6 +16,7 @@ class TopPageTest(TestCase):
     def test_top_page_uses_expected_template(self):
         response = self.client.get("/")
         self.assertTemplateUsed(response, "snippets/top.html")
+
 
 class TopPageRenderSnippetsTest(TestCase):
     def setUp(self):
@@ -40,6 +44,7 @@ class TopPageRenderSnippetsTest(TestCase):
         response = top(request)
         self.assertContains(response, self.user.username)
 
+
 class CreateSnippetTest(TestCase):
     def setUp(self):
         self.user = UserModel.objects.create(
@@ -59,6 +64,7 @@ class CreateSnippetTest(TestCase):
         snippet = Snippet.objects.get(title='タイトル')
         self.assertEqual('コード', snippet.code)
         self.assertEqual('解説', snippet.description)
+
 
 class SnippetDetailTest(TestCase):
     def setUp(self):
@@ -82,3 +88,8 @@ class SnippetDetailTest(TestCase):
         response = self.client.get("/snippets/%s/" % self.snippet.id)
         self.assertContains(response, self.snippet.title, status_code=200)
 
+
+class EditSnippetTest(TestCase):
+    def test_should_resolve_snippet_edit(self):
+        found = resolve("/snippets/1/edit/")
+        self.assertEqual(snippet_edit, found.func)
