@@ -14,6 +14,9 @@ class Snippet(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        db_table = 'snippets'
 
 
 class Comment(models.Model):
@@ -27,3 +30,16 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class Tag(models.Model):
+    name = models.CharField("タグ名", max_length=32)
+    snippets = models.ManyToManyField(
+        Snippet, related_name='tags', related_query_name='tag'
+    )
+    
+    class Meta:
+        db_table = 'tags'
+    
+    def __str__(self):
+        return f'{self.pk} {self.name}'
