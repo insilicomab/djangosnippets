@@ -59,7 +59,7 @@ def snippet_delete(request, snippet_id):
     if snippet.created_by_id != request.user.id:
         return HttpResponseForbidden("このスニペットの編集は許可されていません。")
     snippet.delete()
-    messages.add_message(request, messages.SUCCESS, 'スニペットを削除しました。')
+    messages.add_message(request, messages.INFO, 'スニペットを削除しました。')
     return redirect("top")
 
 
