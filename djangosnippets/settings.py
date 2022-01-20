@@ -146,6 +146,3 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert alert-warning',
     messages.ERROR: 'alert alert-error',
 }
-
-# Userモデルの指定
-AUTH_USER_MODEL = 'accounts.User'
